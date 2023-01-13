@@ -26,7 +26,7 @@ cd evilgophish
 ./setup.sh <root domain> <subdomain(s)> <root domain bool> <redirect url> <feed bool> <rid replacement> <blacklist bool>
 ```
 
-### Method 2: Clone [Wolfandco](https://github.com/Wolfandco/evilgophish) (Automated entry of cert_path to `/etc/letsencrypt/live/${root_domain}/`
+### Method 2: Clone [Wolfandco](https://github.com/Wolfandco/evilgophish) (Automated entry of cert_path to `/etc/letsencrypt/live/${root_domain}/`)
 
 ```bash
 git clone https://github.com/Wolfandco/evilgophish

@@ -453,7 +453,7 @@ main () {
     fi
 
     # Install Dependencies
-   # install_depends_for_this_script
+    install_depends_for_this_script
 
     # Display welcome dialogs
     welcomeDialogs
