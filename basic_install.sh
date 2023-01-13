@@ -150,7 +150,7 @@ set_vars(){
 
         if [[ -z ${root_domain} ]]; then
             printf "%bNothing was entered, exiting...%b\\n" "${COL_LIGHT_RED}" ${COL_NC}
-            exit
+            exit 1
         fi
 
         evilginx2_subs=$(dialog --noshadow --keep-tite \
