@@ -47,12 +47,12 @@ cd evilgophish
 
 ## To-do
 
- - [] Support for more SMTP relays
- - [] DigitalOcean Support?
- - [] AWS, Azure, GCP Support?
- - [] Docker support?
- - [] Clean up script and integrate EvilGoPhish more
- - [] Make it look more cool
+ - [ ] Support for more SMTP relays
+ - [ ] DigitalOcean Support?
+ - [ ] AWS, Azure, GCP Support?
+ - [ ] Docker support?
+ - [ ] Clean up script and integrate EvilGoPhish more
+ - [ ] Make it look more cool
  
 
  
