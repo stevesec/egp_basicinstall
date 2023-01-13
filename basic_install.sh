@@ -462,8 +462,8 @@ main () {
     set_vars
 
     # Success
-    printf " %b %bRemember to grab your ${smtp_password} and enter it into GoPhish!${COL_NC}\\n" "${INFO}" "${COL_LIGHT_RED}"
-    printf " %b You have successfully deployed EvilGoPhish. Have a nice phish!\\n" "${COL_LIGHT_GREEN}"
+    printf " %b %bRemember to grab your SMTP Password: ${smtp_password} and enter it into GoPhish!${COL_NC}\\n" "${INFO}" "${COL_LIGHT_RED}"
+    printf " %b You have successfully deployed EvilGoPhish. Have a nice phish!${COL_NC}\\n" "${COL_LIGHT_GREEN}"
 
 }
 
