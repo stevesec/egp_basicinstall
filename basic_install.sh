@@ -348,7 +348,7 @@ mailgun_setup(){
             --ok-label "Submit" \
             --backtitle "Mailgun API Key" \
             --title "Mailgun API Key" \
-            --form "\\n\\nEnter Mailgun API Key Info (https://app.mailgun.com/app/account/security/api_keys)" \
+            --form "\\n\\nEnter Mailgun API Key Info (https://app.mailgun.com/app/account/security/api_keys) Allows for copy + paste" \
         20 70 0 \
             "API Key:"      1 1 "${api_key}"        1 15 60 0 \
             3>&1 1>&2 2>&3 3>&-)
@@ -371,7 +371,7 @@ mailgun_setup(){
             --no-label "SMTP Password" \
             --backtitle "SMTP Password" \
             --title "Enter super secret Mailgun SMTP Password" \
-            --form "\\n\\nEnter your Mailgun SMTP Password (This will be input into GoPhish).\\n"\
+            --form "\\n\\nEnter your Mailgun SMTP Password (This will be input into GoPhish) Allows for copy + paste.\\n"\
             20 90 0 \
                 "Mailgun SMTP Password:" 1 1 ${smtp_password} 1 20 40 0 \
             3>&1 1>&2 2>&3 3>&-)
