@@ -50,7 +50,7 @@ cd evilgophish
  - [ ] DigitalOcean Support?
  - [ ] AWS, Azure, GCP Support?
  - [ ] Docker support?
- - [ ] Clean up script and integrate EvilGoPhish more
+ - [ ] Clean up script and integrate EvilGoPhish more (with permission of course!)
  - [ ] Make it look more cool
  
 
