@@ -407,7 +407,9 @@ mailgun_setup(){
 git_clone_and_setup_script(){
 
     # Make directory 
-    mkdir "${EVILGOPHISH_HOME_DIR}" > /dev/null
+    if [ ! -d "${EVILGOPHISH_HOME_DIR}" ]; then
+        mkdir "${EVILGOPHISH_HOME_DIR}" > /dev/null
+    fi
     # Clone into /etc/.evilgophish
     git clone "${densecureegpGitURL}" "${EVILGOPHISH_HOME_DIR}" > /dev/null
     # Change directory 
