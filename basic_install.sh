@@ -93,8 +93,8 @@ welcomeDialogs(){
             --title "Proper DNS Records Needed" \
             --no-button "Exit" --yes-button "Continue" \
             --defaultno \
-            --yesno "\\nEvilgophish needs a root domain in order to phish from and create a landing page. \\n\
-            IMPORTANT:\\Zn If you have not already done so, ensure that have assigned the proper DNS records. \\n\
+            --yesno "\\nEvilgophish needs a root domain in order to phish from and create a landing page. \
+            IMPORTANT:\\Zn If you have not already done so, ensure that have assigned the proper DNS records.\
             Our recommendation is to get a domain through Cloudflare \\n\\n\
             Please continue when the DNS records have been configured."\
             "${r}" "${c}" && result=0 || result="$?"
