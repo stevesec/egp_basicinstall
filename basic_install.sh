@@ -41,19 +41,10 @@ e_root_bool=${e_root_bool}
 redirect_url=${redirect_url}
 feed_bool=${feed_bool}
 rid_replacement=${rid_replacement}
-evilginx2_dir=$HOME/.evilginx
 bl_bool=${bl_bool}
-phishing=${phishing}
-bools=${bools}
 
 # List of items to install:
 apt_items_to_install=(dialog wget git)
-
-# This directory is where all logs happen
-GOPHISH_ERROR_DIRECTORY="/var/log/gophish/gophish.log"
-
-# Default web directory
-web_dir=/var/www/html
 
 # Evilgophish Home Directory
 EVILGOPHISH_HOME_DIR=/etc/.evilgophish
@@ -101,11 +92,29 @@ welcomeDialogs(){
 
         case "${result}" in
             "${DIALOG_CANCEL}" | "${DIALOG_ESC}")
-                printf " %b Installer exited at root doamin message.\\n" "${INFO}"
+                printf " %b Installer exited at root domain message.\\n" "${INFO}"
                 exit 1
                 ;;
         esac
 
+
+}
+
+verify_urls(){
+
+    regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
+    string=$1
+    if [[ $1 =~ $regex ]]
+    then
+        continue
+    else
+        dialog --no-shadow --keep-tite \
+        --ok-label "Exit" \
+        --title "Invalid URL" \
+        --msgbox "Invalid URL Entered" \
+        "${r}" "${c}"
+        exit 1
+    fi
 
 }
 
@@ -125,7 +134,7 @@ set_vars(){
             --ok-label "Submit" \
             --backtitle "Root Domain Info" \
             --title "Root Domain Info" \
-            --form "Enter root domain" \
+            --form "\\n\\nEnter root domain (i.e. 'example.com')" \
         20 70 0 \
             "Root Domain:"      1 1 "${root_domain}"        1 15 40 0 \
             3>&1 1>&2 2>&3 3>&-)
@@ -134,16 +143,21 @@ set_vars(){
 
         case ${result1} in 
             "${DIALOG_CANCEL}" | "${DIALOG_ESC}")
-            printf " %b Cancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
+            printf "%bCancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
             exit 1
             ;;
         esac
+
+        if [[ -z ${root_domain} ]]; then
+            printf "%bNothing was entered, exiting...%b\\n" "${COL_LIGHT_RED}" ${COL_NC}
+            exit
+        fi
 
         evilginx2_subs=$(dialog --noshadow --keep-tite \
             --ok-label "Submit" \
             --backtitle "Subdomain Info" \
             --title "Subdomain Info" \
-            --form "Enter Subdomains" \
+            --form "\\n\\nEnter Subdomains (i.e. 'account myaccount')" \
         20 70 0 \
             "Subdomain(s):"      1 1 "${evilginx2_subs}"        1 15 40 0 \
             3>&1 1>&2 2>&3 3>&-)
@@ -152,16 +166,21 @@ set_vars(){
 
         case ${result1} in 
             "${DIALOG_CANCEL}" | "${DIALOG_ESC}")
-            printf " %b Cancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
+            printf "%bCancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
             exit 1
             ;;
         esac
+
+        if [[ -z ${evilginx2_subs} ]]; then
+            printf "%bNothing was entered, exiting...%b" "${COL_LIGHT_RED}" "${COL_NC}"
+            exit 1
+        fi
 
         redirect_url=$(dialog --noshadow --keep-tite \
             --ok-label "Submit" \
             --backtitle "Redirect URL" \
             --title "Redirect URL" \
-            --form "Enter redirect url" \
+            --form "\\n\\nEnter redirect url (i.e. 'https://redirect.com/')" \
         20 70 0 \
             "Redirect URL:"      1 1 "${redirect_url}"        1 15 40 0 \
             3>&1 1>&2 2>&3 3>&-)
@@ -170,17 +189,23 @@ set_vars(){
 
         case ${result1} in 
             "${DIALOG_CANCEL}" | "${DIALOG_ESC}")
-            printf " %b Cancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
+            printf "%bCancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
             exit 1
             ;;
         esac
 
+        if [[ -z ${redirect_url} ]]; then
+            printf "%bNothing was entered, exiting...%b" "${COL_LIGHT_RED}" "${COL_NC}"
+            exit 1
+        fi
+
+        verify_urls "${redirect_url}"
 
         rid_replacement=$(dialog --noshadow --keep-tite \
             --ok-label "Submit" \
             --backtitle "RID Replacement" \
             --title "RID Replacement" \
-            --form "Enter RID Replacement" \
+            --form "\\n\\nEnter RID Replacement (i.e. 'user_id')" \
         20 70 0 \
             "RID Replacement:"      1 1 "${rid_replacement}"        1 20 40 0 \
             3>&1 1>&2 2>&3 3>&-)
@@ -189,10 +214,15 @@ set_vars(){
 
         case ${result1} in 
             "${DIALOG_CANCEL}" | "${DIALOG_ESC}")
-            printf " %b Cancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
+            printf "%bCancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
             exit 1
             ;;
         esac
+
+        if [[ -z ${rid_replacement} ]]; then
+            printf "%bNothing was entered, exiting...%b" "${COL_LIGHT_RED}" "${COL_NC}"
+            exit 1
+        fi
 
         # Set Boolean (Yes or no)
         dialog --no-shadow --keep-tite \
