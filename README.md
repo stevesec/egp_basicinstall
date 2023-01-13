@@ -44,5 +44,17 @@ cd evilgophish
  * To contact about EvilGoPhish, contact [fin3ss3g0d](https://github.com/fin3ss3g0d/evilgophish#contributing)
  * To contact about Evilginx2, contact [Kuba Gretzky](https://github.com/kgretzky)
  * To contact about GoPhish, contact [GoPhish](https://github.com/gophish)
+
+## To-do
+
+ [] Support for more SMTP relays
+ [] DigitalOcean Support?
+ [] AWS, Azure, GCP Support?
+ [] Docker support?
+ [] Clean up script and integrate EvilGoPhish more
+ [] Make it look more cool
+ 
+
+ 
  
  
