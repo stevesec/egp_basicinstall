@@ -3,7 +3,7 @@
 Basic installer for [EvilGoPhish](https://github.com/Wolfandco/evilgophish) - edited for easier setup:
   * Cert_Path Set to: ```/etc/letsencrypt/live/${root_domain}/ ```
   * Included new function ```create_certs()```
-    * This new function creates the certificate at the end of the script to ensure that 
+    * This new function creates the certificate at the end of the script to ensure that the certs are installed.
 
 ## Credits
 
