@@ -34,7 +34,7 @@ DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
 OVER="\\r\\033[K"
 
 
-# Script needs a root domain, these variables are empty scine we don't know until user enters in
+# These variables are empty scine we don't know until user enters in
 root_domain=${root_domain}
 evilginx2_subs=${evilginx2_subs}
 e_root_bool=${e_root_bool}
@@ -42,6 +42,8 @@ redirect_url=${redirect_url}
 feed_bool=${feed_bool}
 rid_replacement=${rid_replacement}
 bl_bool=${bl_bool}
+api_key=${api_key}
+smtp_password=${smtp_password}
 
 # List of items to install:
 apt_items_to_install=(dialog wget git)
@@ -49,8 +51,11 @@ apt_items_to_install=(dialog wget git)
 # Evilgophish Home Directory
 EVILGOPHISH_HOME_DIR=/etc/.evilgophish
 
-# Evilgophish Github Repository
-evilgophishGitURL="https://github.com/wolfandco/evilgophish"
+# DenSecure Evilgophish Github Repository
+densecureegpGitURL="https://github.com/wolfandco/evilgophish"
+
+# Mailgun URL
+mailgun_url="https://api.mailgun.net/v4/domains"
 
 show_ascii_egp(){
 
@@ -104,9 +109,8 @@ verify_urls(){
 
     regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
     string=$1
-    if [[ $1 =~ $regex ]]
-    then
-        continue
+    if [[ $1 =~ $regex ]] ; then
+        :
     else
         dialog --no-shadow --keep-tite \
         --ok-label "Exit" \
@@ -128,7 +132,7 @@ install_depends_for_this_script(){
 set_vars(){
 
     phishingInformationCorrect=false
-    until [[ "${phishingInformationCorrect}" = True ]]; do
+    until [[ "${phishingInformationCorrect}" = true ]]; do
         #Ask user for all variables in varying prompts
         root_domain=$(dialog --noshadow --keep-tite \
             --ok-label "Submit" \
@@ -301,18 +305,103 @@ set_vars(){
                 Root Domain Boolean ${e_root_bool}
                 Live Feed ${feed_bool}
                 Apache Blacklist ${bl_bool}" \
-            "${r}" "${c}" && phishingInformationCorrect=True
+            "${r}" "${c}" && phishingInformationCorrect=true
     done
+    mailgun_setup
+
+}
+
+mailgun_setup(){
+
+    dialog --no-shadow --keep-tite \
+        --backtitle "Use Mailgun Confirmation" \
+        --title "Use Mailgun Confirmation" \
+        --defaultno \
+        --yesno "\\n\\nWould you like to use Mailgun for SMTP setup?" \
+        "${r}" "${c}" && result=0 || result=$?
+
+    case ${result} in 
+            "${DIALOG_OK}")
+                mailgun_bool=true
+                ;;
+            "${DIALOG_CANCEL}")
+                mailgun_bool=false
+                ;;
+            "${DIALOG_ESC}")
+                # User pressed <ESC>
+                printf "  %b Escape pressed, exiting installer.%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
+                exit 1
+                ;;
+    esac
+
+    if [[ "${mailgun_bool}" = true ]]; then
+
+        api_keys=$(dialog --noshadow --keep-tite \
+            --ok-label "Submit" \
+            --backtitle "Mailgun API Key" \
+            --title "Mailgun API Key" \
+            --form "\\n\\nEnter Mailgun API Key Info (https://app.mailgun.com/app/account/security/api_keys)" \
+        20 70 0 \
+            "API Key:"      1 1 "${api_key}"        1 15 60 0 \
+            3>&1 1>&2 2>&3 3>&-)
+
+        result1=$?
+
+        case ${result1} in 
+            "${DIALOG_CANCEL}" | "${DIALOG_ESC}")
+            printf "%bCancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
+            exit 1
+            ;;
+        esac
+
+        if [[ -z ${api_key} ]]; then
+            printf "%bNothing was entered, exiting...%b" "${COL_LIGHT_RED}" "${COL_NC}"
+            exit 1
+        fi
+
+        smtp_password=$(dialog --no-shadow --keep-tite \
+            --no-label "SMTP Password" \
+            --backtitle "SMTP Password" \
+            --title "Enter super secret Mailgun SMTP Password" \
+            --form "\\n\\nEnter your Mailgun SMTP Password (This will be input into GoPhish).\\n"\
+            20 90 0 \
+                "Mailgun SMTP Password:" 1 1 ${smtp_password} 1 20 40 0 \
+            3>&1 1>&2 2>&3 3>&-)
+
+            result1=$?
+
+            case ${result1} in 
+                "${DIALOG_CANCEL}" | "${DIALOG_ESC}")
+                printf "%bCancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
+                exit 1
+                ;;
+            esac
+
+            if [[ -z ${smtp_password} ]]; then
+                printf "%bNothing was entered, exiting...%b" "${COL_LIGHT_RED}" "${COL_NC}"
+                exit 1
+            fi
+
+        curl -s --user "api:${mailgun}" \
+         -X POST ${mailgun_url} \
+         -F name="${root_domain}" \
+         -F smtp_password="${smtp_password}"
+
+    else
+        printf "%bMailgun not used.%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
+        exit 1
+    fi
     git_clone_and_setup_script
 
 }
+
 
 git_clone_and_setup_script(){
 
     # Make directory 
     mkdir "${EVILGOPHISH_HOME_DIR}" > /dev/null
     # Clone into /etc/.evilgophish
-    git clone "${evilgophishGitURL}" "${EVILGOPHISH_HOME_DIR}" > /dev/null
+    git clone "${densecureegpGitURL}" "${EVILGOPHISH_HOME_DIR}" > /dev/null
     # Change directory 
     cd "${EVILGOPHISH_HOME_DIR}" > /dev/null
     # Run it!
@@ -320,6 +409,7 @@ git_clone_and_setup_script(){
     "${redirect_url}" "${feed_bool}" "${rid_replacement}" "${bl_bool}"
 
 }
+
 
 main () {
     local str="Root user check"
@@ -370,6 +460,10 @@ main () {
 
     # Set Variables
     set_vars
+
+    # Success
+    printf " %b %bRemember to grab your ${smtp_password} and enter it into GoPhish!${COL_NC}\\n" "${INFO}" "${COL_LIGHT_RED}"
+    printf " %b You have successfully deployed EvilGoPhish. Have a nice phish!\\n" "${COL_LIGHT_GREEN}"
 
 }
 
