@@ -81,7 +81,7 @@ welcomeDialogs(){
             --and-widget --clear \
         --backtitle "Support SteveSec" \
             --title "Open Source Software" \
-            --msgbox "\\n\\nThis software is free to use and credits should be given to https://github.com/fin3ss3g0d" \
+            --msgbox "\\n\\nThis software is free to use and all credits should be given to https://github.com/fin3ss3g0d" \
             "${r}" "${c}" \
             --and-widget --clear \
         --colors \
