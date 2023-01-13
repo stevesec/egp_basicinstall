@@ -397,7 +397,7 @@ mailgun_setup(){
 
     else
         printf "%bMailgun not used.%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
-        exit 1
+        :
     fi
     git_clone_and_setup_script
 
