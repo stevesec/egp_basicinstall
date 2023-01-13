@@ -70,6 +70,14 @@ echo "Credit: https://github.com/fin3ss3g0d/evilgophish   ";
 
 }
 
+is_command() {
+    # Checks to see if the given command (passed as a string argument) exists on the system.
+    # The function returns 0 (success) if the command exists, and 1 if it doesn't.
+    local check_command="$1"
+
+    command -v "${check_command}" >/dev/null 2>&1
+}
+
 welcomeDialogs(){
 
     # Display the welcome dialog using an appropriately sized window via the calculation conducted earler in the script
