@@ -36,7 +36,7 @@ cd evilgophish
 
 ## Getting in touch with me
 
- * I am primarily on [Twitter](https://twitter.com/SteveSec128), I can also be found on [SteveSec.com](https://stevesec.com)
+ * I am primarily on [Twitter](https://twitter.com/SteveSec128), I can also be found on [blog.stevesec.com](https://blog.stevesec.com)
  
 ## Alternative Support 
 
