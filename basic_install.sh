@@ -142,7 +142,7 @@ set_vars(){
     phishingInformationCorrect=false
     until [[ "${phishingInformationCorrect}" = true ]]; do
         #Ask user for all variables in varying prompts
-        root_domain=$(dialog --noshadow --keep-tite \
+        root_domain=$(dialog --no-shadow --keep-tite \
             --ok-label "Submit" \
             --backtitle "Root Domain Info" \
             --title "Root Domain Info" \
@@ -165,7 +165,7 @@ set_vars(){
             exit 1
         fi
 
-        evilginx2_subs=$(dialog --noshadow --keep-tite \
+        evilginx2_subs=$(dialog --no-shadow --keep-tite \
             --ok-label "Submit" \
             --backtitle "Subdomain Info" \
             --title "Subdomain Info" \
@@ -188,7 +188,7 @@ set_vars(){
             exit 1
         fi
 
-        redirect_url=$(dialog --noshadow --keep-tite \
+        redirect_url=$(dialog --no-shadow --keep-tite \
             --ok-label "Submit" \
             --backtitle "Redirect URL" \
             --title "Redirect URL" \
@@ -213,7 +213,7 @@ set_vars(){
 
         verify_urls "${redirect_url}"
 
-        rid_replacement=$(dialog --noshadow --keep-tite \
+        rid_replacement=$(dialog --no-shadow --keep-tite \
             --ok-label "Submit" \
             --backtitle "RID Replacement" \
             --title "RID Replacement" \
@@ -344,7 +344,7 @@ mailgun_setup(){
 
     if [[ "${mailgun_bool}" = true ]]; then
 
-        api_keys=$(dialog --noshadow --keep-tite \
+        api_keys=$(dialog --no-shadow --keep-tite \
             --ok-label "Submit" \
             --backtitle "Mailgun API Key" \
             --title "Mailgun API Key" \
