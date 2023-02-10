@@ -52,7 +52,7 @@ apt_items_to_install=(dialog wget git)
 EVILGOPHISH_HOME_DIR=/etc/.evilgophish
 
 # DenSecure Evilgophish Github Repository
-densecureegpGitURL="https://github.com/wolfandco/evilgophish"
+egpGitURL="https://github.com/fin3ss3g0d/evilgophish"
 
 # Mailgun URL
 mailgun_url="https://api.mailgun.net/v4/domains"
@@ -411,7 +411,7 @@ git_clone_and_setup_script(){
         mkdir "${EVILGOPHISH_HOME_DIR}" > /dev/null
     fi
     # Clone into /etc/.evilgophish
-    git clone "${densecureegpGitURL}" "${EVILGOPHISH_HOME_DIR}" > /dev/null
+    git clone "${egpGitURL}" "${EVILGOPHISH_HOME_DIR}" > /dev/null
     # Change directory 
     cd "${EVILGOPHISH_HOME_DIR}" > /dev/null
     # Run it!
