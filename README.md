@@ -12,7 +12,7 @@ First and foremost, I would like to give credit where credit is due, [fin3ss3g0d
 
 Those who want to get started quickly and conveniently may install EvilGoPhish using the following command:
 
-### `curl -sSL https://raw.githubusercontent.com/stevesec/egp_basicinstall/main/basic_install.sh | bash`
+`curl -sSL https://raw.githubusercontent.com/stevesec/egp_basicinstall/main/basic_install.sh | bash`
 
 ## Alternative Install Methods
 
